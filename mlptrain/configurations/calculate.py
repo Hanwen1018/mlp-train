@@ -28,27 +28,24 @@ def run_autode(
     method, kwds = _method_and_keywords(method_name=method_name.lower())
     logger.info(f'Running a {method_name} calculation at: {kwds}')
 
-    calc = Calculation(
-        name='tmp',
-        molecule=Species(
+    molecule = Species(
             name='tmp',
             atoms=configuration.atoms,
             charge=configuration.charge,
             mult=configuration.mult,
-        ),
-        method=method,
-        keywords=kwds,
-        n_cores=n_cores,
-    )
-    calc.run()
+        )
+
+    molecule.single_point(method=method,
+                          keywords=kwds,
+                          n_cores=n_cores)
 
     try:
-        configuration.forces.true = -calc.get_gradients().to('eV Å^-1')
+        configuration.forces.true = -molecule.gradient.to('eV Å^-1')
 
     except CouldNotGetProperty:
         logger.error('Failed to set forces')
 
-    energy = calc.get_energy()
+    energy = molecule.energy
     if energy is None:
         logger.error('Failed to calculate the energy')
         if calc.output.exists:
@@ -57,7 +54,7 @@ def run_autode(
         return None
 
     configuration.energy.true = energy.to('eV')
-    configuration.partial_charges = calc.get_atomic_charges()
+    configuration.partial_charges = molecule.partial_charges
     return None
 
 
