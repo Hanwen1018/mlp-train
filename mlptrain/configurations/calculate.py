@@ -45,9 +45,6 @@ def run_autode(
     energy = molecule.energy
     if energy is None:
         logger.error('Failed to calculate the energy')
-        if calc.output.exists:
-            print(''.join(calc.output.file_lines[-50:]))
-
         return None
 
     configuration.energy.true = energy.to('eV')
