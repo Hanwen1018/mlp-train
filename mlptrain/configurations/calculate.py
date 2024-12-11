@@ -22,7 +22,6 @@ def run_autode(
         n_cores: Number of cores to use for the calculation
     """
     from autode.species import Species
-    from autode.calculation import Calculation
     from autode.exceptions import CouldNotGetProperty
 
     method, kwds = _method_and_keywords(method_name=method_name.lower())
@@ -33,7 +32,7 @@ def run_autode(
         atoms=configuration.atoms,
         charge=configuration.charge,
         mult=configuration.mult,
-        )
+    )
 
     molecule.single_point(method=method, keywords=kwds, n_cores=n_cores)
 
