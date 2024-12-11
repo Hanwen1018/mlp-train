@@ -29,15 +29,13 @@ def run_autode(
     logger.info(f'Running a {method_name} calculation at: {kwds}')
 
     molecule = Species(
-            name='tmp',
-            atoms=configuration.atoms,
-            charge=configuration.charge,
-            mult=configuration.mult,
+        name='tmp',
+        atoms=configuration.atoms,
+        charge=configuration.charge,
+        mult=configuration.mult,
         )
 
-    molecule.single_point(method=method,
-                          keywords=kwds,
-                          n_cores=n_cores)
+    molecule.single_point(method=method, keywords=kwds, n_cores=n_cores)
 
     try:
         configuration.forces.true = -molecule.gradient.to('eV Å^-1')
