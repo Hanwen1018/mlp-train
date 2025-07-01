@@ -75,6 +75,12 @@ class _ConfigClass:
         'restart_latest': False,
         'save_cpu': True,
         'dtype': 'float32',
+        'lr': 0.001,
+        'scheduler_patience': 20,
+        'patience': 50, 
+        'ema': True,
+        'swa': True
+        
     }
 
     # --------------------- Internal properties ---------------------------
